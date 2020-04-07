@@ -372,12 +372,11 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 L'alerte ressemble à ceci:
+----
+
 ![](Question 1.PNG)
-[**] [1:4000015:1] Mon nom: Rosy! [**]
-[Priority: 0] 
-04/07-08:34:07.869598 10.153.3.118:55094 -> 172.217.168.46:80
-TCP TTL:128 TOS:0x0 ID:18150 IpLen:20 DgmLen:632 DF
-***AP*** Seq: 0xE472478D  Ack: 0xCCE3C6DC  Win: 0x400  TcpLen: 20
+
+
 
 Décrivons les éléments:
 
