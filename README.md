@@ -287,6 +287,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Reponse :**  
+Un préprocésseur est un outil/composant de snort qui permet de normaliser un paquet sniffé avant que le paquet ne soit analyser pour voir si il correspond à telle ou telle règle.
 
 ---
 
@@ -295,6 +296,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Reponse :**  
+On est confronté au WARNING suivant car les préprocésseurs sont configuré dans les règles par défaut de snort dans le fichier etc/snort/snort.conf. Si on utilise pas ce fichier lorsqu'on execute snort les préprocésseurs ne sont donc pas configurés
 
 ---
 
@@ -311,9 +313,10 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Reponse :**  
+La règle analyse les paquets tcp en provenance de n'importe quelle adresse ip et port allant vers n'importe quelle adresse ip et port.
+Elle lance une alerte intitulée "Mon nom!" dans le cas où le paquet contient le nom "Rubinstein".
 
 ---
-
 Utiliser un éditeur et créer un fichier `myrules.rules` sur votre répertoire home. Rajouter une règle comme celle montrée avant mais avec votre nom ou un mot clé de votre préférence. Lancer snort avec la commande suivante :
 
 ```
@@ -325,6 +328,90 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Reponse :**  
+**On voit ceci lorsque le logiciel est lancé : **
+
+    --== Initializing Snort ==--
+Initializing Output Plugins!
+Initializing Preprocessors!
+Initializing Plug-ins!
+Parsing Rules file "myrules.rules"
+Tagged Packet Limit: 256
+Log directory = /var/log/snort
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+Initializing rule chains...
+1 Snort rules read
+    1 detection rules
+    0 decoder rules
+    0 preprocessor rules
+1 Option Chains linked into 1 Chain Headers
+0 Dynamic rules
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++-------------------[Rule Port Counts]---------------------------------------
+|             tcp     udp    icmp      ip
+|     src       0       0       0       0
+|     dst       0       0       0       0
+|     any       1       0       0       0
+|      nc       0       0       0       0
+|     s+d       0       0       0       0
++----------------------------------------------------------------------------
+
++-----------------------[detection-filter-config]------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[detection-filter-rules]-------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[rate-filter-config]-----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[rate-filter-rules]------------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[event-filter-config]----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[event-filter-global]----------------------------------
++-----------------------[event-filter-local]-----------------------------------
+| none
++-----------------------[suppression]------------------------------------------
+| none
+-------------------------------------------------------------------------------
+Rule application order: activation->dynamic->pass->drop->sdrop->reject->alert->log
+Verifying Preprocessor Configurations!
+
+[ Port Based Pattern Matching Memory ]
++-[AC-BNFA Search Info Summary]------------------------------
+| Instances        : 1
+| Patterns         : 1
+| Pattern Chars    : 5
+| Num States       : 5
+| Num Match States : 1
+| Memory           :   1.56Kbytes
+|   Patterns       :   0.04K
+|   Match Lists    :   0.07K
+|   Transitions    :   1.05K
++-------------------------------------------------
+pcap DAQ configured to passive.
+Acquiring network traffic from "eth0".
+Reload thread starting...
+Reload thread started, thread 0x7f181da5b700 (3361)
+Decoding Ethernet
+
+        --== Initialization Complete ==--
+
+   ,,_     -*> Snort! <*-
+  o"  )~   Version 2.9.7.0 GRE (Build 149) 
+   ''''    By Martin Roesch & The Snort Team: http://www.snort.org/contact#team
+           Copyright (C) 2014 Cisco and/or its affiliates. All rights reserved.
+           Copyright (C) 1998-2013 Sourcefire, Inc., et al.
+           Using libpcap version 1.9.1 (with TPACKET_V3)
+           Using PCRE version: 8.39 2016-06-14
+           Using ZLIB version: 1.2.11
+
+Commencing packet processing (pid=3356)
+
+**Tous ces messages veulent dire : 
 
 ---
 
@@ -336,6 +423,8 @@ Aller à un site web contenant dans son text votre nom ou votre mot clé que vou
 
 **Reponse :**  
 
+Rien.
+
 ---
 
 Arrêter Snort avec `CTRL-C`.
@@ -345,6 +434,101 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Reponse :**  
+On voit ceci :
+
+^C*** Caught Int-Signal
+WARNING: No preprocessors configured for policy 0.
+===============================================================================
+Run time for packet processing was 29.399806 seconds
+Snort processed 672 packets.
+Snort ran for 0 days 0 hours 0 minutes 29 seconds
+   Pkts/sec:           23
+===============================================================================
+Memory usage summary:
+  Total non-mmapped bytes (arena):       2293760
+  Bytes in mapped regions (hblkhd):      17252352
+  Total allocated space (uordblks):      2067504
+  Total free space (fordblks):           226256
+  Topmost releasable block (keepcost):   69488
+===============================================================================
+Packet I/O Totals:
+   Received:          684
+   Analyzed:          672 ( 98.246%)
+    Dropped:            0 (  0.000%)
+   Filtered:            0 (  0.000%)
+Outstanding:           12 (  1.754%)
+   Injected:            0
+===============================================================================
+Breakdown by protocol (includes rebuilt packets):
+        Eth:          672 (100.000%)
+       VLAN:            0 (  0.000%)
+        IP4:          608 ( 90.476%)
+       Frag:            0 (  0.000%)
+       ICMP:            0 (  0.000%)
+        UDP:          226 ( 33.631%)
+        TCP:          343 ( 51.042%)
+        IP6:           17 (  2.530%)
+    IP6 Ext:           19 (  2.827%)
+   IP6 Opts:            2 (  0.298%)
+      Frag6:            0 (  0.000%)
+      ICMP6:            6 (  0.893%)
+       UDP6:           11 (  1.637%)
+       TCP6:            0 (  0.000%)
+     Teredo:            0 (  0.000%)
+    ICMP-IP:            0 (  0.000%)
+    IP4/IP4:            0 (  0.000%)
+    IP4/IP6:            0 (  0.000%)
+    IP6/IP4:            0 (  0.000%)
+    IP6/IP6:            0 (  0.000%)
+        GRE:            0 (  0.000%)
+    GRE Eth:            0 (  0.000%)
+   GRE VLAN:            0 (  0.000%)
+    GRE IP4:            0 (  0.000%)
+    GRE IP6:            0 (  0.000%)
+GRE IP6 Ext:            0 (  0.000%)
+   GRE PPTP:            0 (  0.000%)
+    GRE ARP:            0 (  0.000%)
+    GRE IPX:            0 (  0.000%)
+   GRE Loop:            0 (  0.000%)
+       MPLS:            0 (  0.000%)
+        ARP:           47 (  6.994%)
+        IPX:            0 (  0.000%)
+   Eth Loop:            0 (  0.000%)
+   Eth Disc:            0 (  0.000%)
+   IP4 Disc:           35 (  5.208%)
+   IP6 Disc:            0 (  0.000%)
+   TCP Disc:            0 (  0.000%)
+   UDP Disc:            0 (  0.000%)
+  ICMP Disc:            0 (  0.000%)
+All Discard:           35 (  5.208%)
+      Other:            4 (  0.595%)
+Bad Chk Sum:            0 (  0.000%)
+    Bad TTL:            0 (  0.000%)
+     S5 G 1:            0 (  0.000%)
+     S5 G 2:            0 (  0.000%)
+      Total:          672
+===============================================================================
+Action Stats:
+     Alerts:            5 (  0.744%)
+     Logged:            5 (  0.744%)
+     Passed:            0 (  0.000%)
+Limits:
+      Match:            0
+      Queue:            0
+        Log:            0
+      Event:            0
+      Alert:            0
+Verdicts:
+      Allow:          672 ( 98.246%)
+      Block:            0 (  0.000%)
+    Replace:            0 (  0.000%)
+  Whitelist:            0 (  0.000%)
+  Blacklist:            0 (  0.000%)
+     Ignore:            0 (  0.000%)
+      Retry:            0 (  0.000%)
+===============================================================================
+Snort exiting
+
 
 ---
 
@@ -358,7 +542,15 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 **Reponse :**  
 
 ---
+L'alerte ressemble à ceci:
 
+[**] [1:4000015:1] Mon nom: Rosy! [**]
+[Priority: 0] 
+04/07-08:34:07.869598 10.153.3.118:55094 -> 172.217.168.46:80
+TCP TTL:128 TOS:0x0 ID:18150 IpLen:20 DgmLen:632 DF
+***AP*** Seq: 0xE472478D  Ack: 0xCCE3C6DC  Win: 0x400  TcpLen: 20
+
+Décrivons les éléments:
 
 --
 
