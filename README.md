@@ -329,8 +329,8 @@ sudo snort -c myrules.rules -i eth0
 
 **Reponse :**  
 **On voit ceci lorsque le logiciel est lancé : **
-![](Question4-1.png)
-![](Question4-2.png)
+![](Question4-1.PNG)
+![](Question4-2.PNG)
 
 **Tous ces messages veulent dire : 
 
@@ -356,14 +356,13 @@ Arrêter Snort avec `CTRL-C`.
 
 **Reponse :**  
 On voit ceci :
-![](Question6-1.png)
-![](Question6-2.png)
+![](Question6.1.PNG)
+![](Question 6.2.PNG)
 
 ---
 
 
 Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il y ait des alertes pour votre nom ou mot choisi.
-![](Question1.png)
 
 **Question 7: A quoi ressemble l'alerte ? Qu'est-ce que chaque élément de l'alerte veut dire ? Décrivez-la en détail !**
 
@@ -373,7 +372,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 L'alerte ressemble à ceci:
-
+![](Question 1.PNG)
 [**] [1:4000015:1] Mon nom: Rosy! [**]
 [Priority: 0] 
 04/07-08:34:07.869598 10.153.3.118:55094 -> 172.217.168.46:80
